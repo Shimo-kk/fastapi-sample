@@ -1,0 +1,11 @@
+fastapi==0.111.0
+fastapi-csrf-protect==0.3.3
+starlette-csrf==3.0.0
+psycopg2-binary==2.9.9
+SQLAlchemy==2.0.30
+alembic==1.13.1
+pytest==8.2.0
+injector==0.21.0
+ulid-py==1.1.0
+passlib==1.7.4
+PyJWT==2.8.0

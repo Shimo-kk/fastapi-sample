@@ -1,0 +1,49 @@
+services:
+  db:
+    image: postgres:14
+    environment:
+      - TZ="Asia/Tokyo"
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=Zh9BbsS7
+    ports:
+      - "5432:5432"
+    volumes:
+      - db_data:/var/lib/postgresql/data
+      - ./container/db/initdb.d:/docker-entrypoint-initdb.d
+    restart: always
+  pgadmin:
+    image: dpage/pgadmin4:6.11
+    environment:
+      - PGADMIN_DEFAULT_EMAIL=example@example.com
+      - PGADMIN_DEFAULT_PASSWORD=example
+    ports:  
+      - 8080:80
+    volumes:
+      - pgadmin_data:/var/lib/pgadmin
+    depends_on:
+      - db
+  web:
+    image: nginx:alpine
+    environment:
+      - TZ="Asia/Tokyo"
+    ports:
+      - "80:80"
+      - "443:443"
+    volumes:
+      - ./container/web/conf.d:/etc/nginx/conf.d
+      - ./container/web/ssl:/etc/nginx/ssl
+    depends_on:
+      - app
+  app:
+    build:
+      context: ./container/app/
+      dockerfile: ./Dockerfile
+    volumes:
+      - ./container/app/src:/src
+    depends_on:
+      - db
+    tty: true
+
+volumes:
+  db_data:
+  pgadmin_data:
