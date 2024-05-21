@@ -20,9 +20,9 @@ class BaseEntity:
             created_at: 作成日時
             updated_at: 更新日時
         """
-        self.id: int = id
-        self.created_at: datetime = created_at
-        self.updated_at: datetime = updated_at
+        self._id: int = id
+        self._created_at: datetime = created_at
+        self._updated_at: datetime = updated_at
 
     def __eq__(self, o: object) -> bool:
         """
@@ -33,3 +33,15 @@ class BaseEntity:
             return self.id == o.id
 
         return False
+
+    @property
+    def id(self) -> int:
+        return self._id
+
+    @property
+    def created_at(self) -> datetime:
+        return self._created_at
+
+    @property
+    def updated_at(self) -> datetime:
+        return self._updated_at
