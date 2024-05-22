@@ -1,6 +1,7 @@
-import os
 from starlette.middleware.cors import CORSMiddleware, ALL_METHODS
 from starlette.types import ASGIApp
+
+from app.core.environment import ALLOW_ORIGINS, ALLOW_HEADERS
 
 
 class CORSMiddleware(CORSMiddleware):
@@ -11,8 +12,8 @@ class CORSMiddleware(CORSMiddleware):
     def __init__(self, app: ASGIApp) -> None:
         super().__init__(
             app,
-            allow_origins=os.environ["ALLOW_ORIGINS"],
+            allow_origins=ALLOW_ORIGINS,
             allow_methods=ALL_METHODS,
-            allow_headers=os.environ["ALLOW_HEADERS"],
+            allow_headers=ALLOW_HEADERS,
             allow_credentials=True,
         )
