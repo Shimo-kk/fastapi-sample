@@ -1,6 +1,5 @@
 from datetime import datetime
 from passlib.context import CryptContext
-
 from app.core.exceptions import ValidationError
 from app.domain import BaseEntity
 from app.domain.user.user_validator import UserValidator

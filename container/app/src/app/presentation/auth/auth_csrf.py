@@ -1,7 +1,6 @@
 from fastapi import Request, Response
 from fastapi_csrf_protect import CsrfProtect
 from pydantic import BaseModel
-
 from app.core.environment import CSRF_KEY
 
 

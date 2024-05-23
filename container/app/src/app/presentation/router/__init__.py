@@ -1,5 +1,4 @@
 from fastapi import APIRouter
-
 from app.presentation.router import csrf_router
 
 

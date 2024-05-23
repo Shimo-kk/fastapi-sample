@@ -1,6 +1,5 @@
 from starlette.middleware.cors import CORSMiddleware, ALL_METHODS
 from starlette.types import ASGIApp
-
 from app.core.environment import ALLOW_ORIGINS, ALLOW_HEADERS
 
 
