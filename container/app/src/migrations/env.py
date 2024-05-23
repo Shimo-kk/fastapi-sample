@@ -9,6 +9,7 @@ from alembic import context
 from dotenv import load_dotenv
 
 from app.infrastructure.database.dto import Base
+from app.infrastructure.database.dto.user_dto import UserDto  # NOQA
 
 load_dotenv()
 
@@ -31,7 +32,7 @@ target_metadata = Base.metadata
 # can be acquired:
 # my_important_option = config.get_main_option("my_important_option")
 # ... etc.
-url = f'postgresql+psycopg2://{os.environ["DB_USER"]}:{os.environ["DB_PASS"]}@{os.environ["DB_HOST"]}/{os.environ["DB_NAME"]}'
+url = f'postgresql+psycopg2://{os.environ["DB_USER"]}:{os.environ["DB_PASS"]}@{os.environ["DB_HOST"]}/{os.environ["DB_NAME"]}'  # NOQA
 config.set_main_option("sqlalchemy.url", url)
 
 
