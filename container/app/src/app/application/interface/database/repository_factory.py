@@ -1,4 +1,7 @@
-from abc import ABC
+from abc import ABC, abstractmethod
+from typing import Type, TypeVar
+
+T = TypeVar("T")
 
 
 class IRepositoryFactory(ABC):
@@ -6,4 +9,6 @@ class IRepositoryFactory(ABC):
     リポジトリファクトリのインタフェース
     """
 
-    pass
+    @abstractmethod
+    def get_repository(self, interface_cls: Type[T]) -> T:
+        raise NotImplementedError
