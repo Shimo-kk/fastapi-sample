@@ -10,5 +10,5 @@ class IDatabaseHandller(ABC):
     """
 
     @abstractmethod
-    def transaction(func: Callable[[IRepositoryFactory]]) -> None:
+    def transaction(self, func: Callable[[IRepositoryFactory], None]) -> None:
         raise NotImplementedError

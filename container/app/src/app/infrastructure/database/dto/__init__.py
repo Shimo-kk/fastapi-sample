@@ -1,6 +1,6 @@
 from sqlalchemy import Column, func
 from sqlalchemy.dialects.postgresql import INTEGER, TIMESTAMP
-from sqlalchemy.ext.declarative import declarative_base
+from sqlalchemy.orm import declarative_base
 
 Base = declarative_base()
 

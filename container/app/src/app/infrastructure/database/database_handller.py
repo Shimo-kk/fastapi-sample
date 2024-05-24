@@ -35,13 +35,12 @@ class DatabaseHandller(IDatabaseHandller):
         engine = create_engine(
             url,
             echo=True,
-            encoding="utf-8",
             # pool_size=,
             # max_overflow=
         )
         self._sessionLocal = sessionmaker(autocommit=False, autoflush=False, bind=engine)
 
-    def transaction(self, func: Callable[[IRepositoryFactory]]) -> None:
+    def transaction(self, func: Callable[[IRepositoryFactory], None]) -> None:
         """
         トランザクション
 
@@ -55,7 +54,7 @@ class DatabaseHandller(IDatabaseHandller):
             raise
 
     @contextmanager
-    def get_session(self) -> Generator[Session]:
+    def get_session(self) -> Generator[Session, None, None]:
         """
         セッション取得
 

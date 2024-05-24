@@ -1,5 +1,4 @@
 from injector import Module, provider, singleton
-from app.core.environment import DB_HOST, DB_USER, DB_PASS, DB_NAME
 from app.application.interface.database.database_handller import IDatabaseHandller
 from app.infrastructure.database.database_handller import (
     DatabaseHost,
@@ -15,25 +14,31 @@ class DependencyModule(Module):
     依存関係設定モジュール
     """
 
+    def __init__(self, db_host: str, db_user: str, db_pass: str, db_name: str):
+        self._db_host = db_host
+        self._db_user = db_user
+        self._db_pass = db_pass
+        self._db_name = db_name
+
     def configure(self, binder):
         binder.bind(IDatabaseHandller, to=DatabaseHandller, scope=singleton)
 
     @singleton
     @provider
     def database_host(self) -> DatabaseHost:
-        return DB_HOST
+        return self._db_host
 
     @singleton
     @provider
     def database_user(self) -> DatabaseUser:
-        return DB_USER
+        return self._db_user
 
     @singleton
     @provider
     def database_pass(self) -> DatabasePass:
-        return DB_PASS
+        return self._db_pass
 
     @singleton
     @provider
     def database_name(self) -> DatabaseName:
-        return DB_NAME
+        return self._db_name

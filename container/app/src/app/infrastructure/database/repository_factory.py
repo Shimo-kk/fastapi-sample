@@ -10,12 +10,12 @@ class RepositoryFactory(IRepositoryFactory):
     リポジトリファクトリの実装クラス
 
     Attributes:
-        session: セッション
+        db_session: DBセッション
     """
 
     def __init__(self, session: Session):
-        self._session: Session = session
+        self._db_session: Session = session
 
     def get_repository(self, interface_cls: Type[T]) -> T:
         implementation_cls = interface_cls.__subclasses__()[0]
-        return implementation_cls(self._session)
+        return implementation_cls(self._db_session)
