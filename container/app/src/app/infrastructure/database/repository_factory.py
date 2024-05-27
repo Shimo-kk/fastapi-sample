@@ -1,6 +1,7 @@
 from sqlalchemy.orm.session import Session
 from typing import Type, TypeVar
 from app.application.interface.database.repository_factory import IRepositoryFactory
+from app.infrastructure.database.repository.user_repository import UserRepository  # NOQA
 
 T = TypeVar("T")
 

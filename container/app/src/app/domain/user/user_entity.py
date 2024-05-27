@@ -1,5 +1,6 @@
+import os
+import hashlib
 from datetime import datetime
-from passlib.context import CryptContext
 from app.core.exceptions import ValidationError
 from app.domain import BaseEntity
 from app.domain.user.user_validator import UserValidator
@@ -42,10 +43,11 @@ class UserEntity(BaseEntity):
             raise ValidationError(valid_message)
 
         # パスワードのハッシュ化
-        pwd_ctx = CryptContext(schemes=["bcrypt"], deprecated="auto")
-        hashd: str = pwd_ctx.hash(password)
+        salt: bytes = os.urandom(16)
+        salt_hex: str = salt.hex()
+        hashd: str = hashlib.sha256(salt + password.encode()).hexdigest()
 
-        return UserEntity(name=name, email=email, password=hashd)
+        return UserEntity(name=name, email=email, password=f"{salt_hex}${hashd}")
 
     def __init__(
         self,
@@ -84,8 +86,10 @@ class UserEntity(BaseEntity):
         Args:
             plain_pw: パスワード
         """
-        pwd_ctx = CryptContext(schemes=["bcrypt"], deprecated="auto")
-        return pwd_ctx.verify(plain_pw, self._password)
+        salt_hex, stored_hash = self._password.split("$")
+        salt = bytes.fromhex(salt_hex)
+        provided_hash = hashlib.sha256(salt + plain_pw.encode()).hexdigest()
+        return stored_hash == provided_hash
 
     def change_name(self, name: str):
         """
@@ -116,10 +120,11 @@ class UserEntity(BaseEntity):
             raise ValidationError(valid_message)
 
         # パスワードのハッシュ化
-        pwd_ctx = CryptContext(schemes=["bcrypt"], deprecated="auto")
-        hashd: str = pwd_ctx.hash(password)
+        salt: bytes = os.urandom(16)
+        salt_hex: str = salt.hex()
+        hashd: str = hashlib.sha256(salt + password.encode()).hexdigest()
 
-        self._password = hashd
+        self._password = f"{salt_hex}${hashd}"
 
     @property
     def name(self) -> str:

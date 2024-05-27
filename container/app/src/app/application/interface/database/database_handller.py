@@ -1,6 +1,6 @@
 from abc import ABC, abstractmethod
-from typing import Callable
-
+from typing import Generator
+from contextlib import contextmanager
 from app.application.interface.database.repository_factory import IRepositoryFactory
 
 
@@ -10,5 +10,6 @@ class IDatabaseHandller(ABC):
     """
 
     @abstractmethod
-    def transaction(self, func: Callable[[IRepositoryFactory], None]) -> None:
+    @contextmanager
+    def begin_transaction(self) -> Generator[IRepositoryFactory, None, None]:
         raise NotImplementedError

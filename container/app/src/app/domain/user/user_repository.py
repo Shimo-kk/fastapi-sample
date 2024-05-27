@@ -13,7 +13,7 @@ class IUserRepository(ABC):
         raise NotImplementedError
 
     @abstractmethod
-    def NotExists(self, email: str) -> bool:
+    def not_exists(self, email: str) -> bool:
         raise NotImplementedError
 
     @abstractmethod

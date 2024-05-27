@@ -1,4 +1,5 @@
-import os
+import sys
+from dotenv import load_dotenv
 from logging.config import fileConfig
 
 from sqlalchemy import engine_from_config
@@ -6,8 +7,16 @@ from sqlalchemy import pool
 
 from alembic import context
 
-from dotenv import load_dotenv
-
+from app.core.environment import (
+    DB_HOST,
+    DB_USER,
+    DB_PASS,
+    DB_NAME,
+    DB_HOST_TEST,
+    DB_USER_TEST,
+    DB_PASS_TEST,
+    DB_NAME_TEST,
+)
 from app.infrastructure.database.dto import Base
 from app.infrastructure.database.dto.user_dto import UserDto  # NOQA
 
@@ -32,7 +41,11 @@ target_metadata = Base.metadata
 # can be acquired:
 # my_important_option = config.get_main_option("my_important_option")
 # ... etc.
-url = f'postgresql+psycopg2://{os.environ["DB_USER"]}:{os.environ["DB_PASS"]}@{os.environ["DB_HOST"]}/{os.environ["DB_NAME"]}'  # NOQA
+if "pytest" in sys.modules:
+    url = f"postgresql+psycopg2://{DB_USER_TEST}:{DB_PASS_TEST}@{DB_HOST_TEST}/{DB_NAME_TEST}"
+else:
+    url = f"postgresql+psycopg2://{DB_USER}:{DB_PASS}@{DB_HOST}/{DB_NAME}"
+
 config.set_main_option("sqlalchemy.url", url)
 
 

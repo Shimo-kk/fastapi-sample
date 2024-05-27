@@ -2,11 +2,12 @@ from sqlalchemy import create_engine
 from sqlalchemy.orm import sessionmaker
 from sqlalchemy.orm.session import Session
 from contextlib import contextmanager
-from typing import Generator, Callable, NewType
+from typing import Generator, NewType
 from injector import inject, singleton
 from app.application.interface.database.database_handller import IDatabaseHandller
 from app.application.interface.database.repository_factory import IRepositoryFactory
 from app.infrastructure.database.repository_factory import RepositoryFactory
+
 
 DatabaseHost = NewType("DatabaseHost", str)
 DatabaseUser = NewType("DatabaseUser", str)
@@ -38,32 +39,20 @@ class DatabaseHandller(IDatabaseHandller):
             # pool_size=,
             # max_overflow=
         )
-        self._sessionLocal = sessionmaker(autocommit=False, autoflush=False, bind=engine)
-
-    def transaction(self, func: Callable[[IRepositoryFactory], None]) -> None:
-        """
-        トランザクション
-
-        Args:
-            func: トランザクション内で実行する関数
-        """
-        try:
-            with self.get_session() as session:
-                func(RepositoryFactory(session))
-        except Exception:
-            raise
+        self._session_local: sessionmaker = sessionmaker(autocommit=False, autoflush=False, bind=engine)
 
     @contextmanager
-    def get_session(self) -> Generator[Session, None, None]:
+    def begin_transaction(self) -> Generator[IRepositoryFactory, None, None]:
         """
-        セッション取得
+        トランザクション開始
 
         Returns:
-            Generator[Session]: セッション
+            Generator[IRepositoryFactory, None, None]: リポジトリファクトリ
         """
-        session = self._sessionLocal()
+        session: Session = self._session_local()
+        repositoryFactory: IRepositoryFactory = RepositoryFactory(session)
         try:
-            yield session
+            yield repositoryFactory
             session.commit()
         except Exception:
             session.rollback()
