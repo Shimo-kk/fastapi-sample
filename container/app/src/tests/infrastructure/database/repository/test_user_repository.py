@@ -5,7 +5,7 @@ from app.domain.user.user_entity import UserEntity
 
 def test_insert_ok(injector):
     """
-    挿入 正常
+    挿入 OK
     """
     database_handller: DatabaseHandller = injector.get(DatabaseHandller)
 

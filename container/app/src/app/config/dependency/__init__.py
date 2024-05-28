@@ -1,5 +1,6 @@
 from injector import Module, provider, singleton
 from app.application.interface.database.database_handller import IDatabaseHandller
+from app.application.interface.usecase.auth_usecase import IAuthUsecase
 from app.infrastructure.database.database_handller import (
     DatabaseHost,
     DatabaseUser,
@@ -7,6 +8,7 @@ from app.infrastructure.database.database_handller import (
     DatabaseName,
     DatabaseHandller,
 )
+from app.application.usecase.auth_usecase import AuthUsecase
 
 
 class DependencyModule(Module):
@@ -22,6 +24,7 @@ class DependencyModule(Module):
 
     def configure(self, binder):
         binder.bind(IDatabaseHandller, to=DatabaseHandller, scope=singleton)
+        binder.bind(IAuthUsecase, to=AuthUsecase, scope=singleton)
 
     @singleton
     @provider
