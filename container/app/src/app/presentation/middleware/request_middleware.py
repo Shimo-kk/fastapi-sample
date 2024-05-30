@@ -1,4 +1,4 @@
-from fastapi import Request, Response, status
+from fastapi import Request, Response, status, HTTPException
 from fastapi.responses import JSONResponse
 from starlette.middleware.base import BaseHTTPMiddleware
 
@@ -22,6 +22,12 @@ class RequestMiddleware(BaseHTTPMiddleware):
         try:
             response: Response = await call_next(request)
             return response
+
+        except HTTPException as e:
+            detail = {
+                "detail": e.detail,
+            }
+            return JSONResponse(detail, status_code=e.status_code)
         except Exception as e:
             detail = {
                 "detail": str(e),

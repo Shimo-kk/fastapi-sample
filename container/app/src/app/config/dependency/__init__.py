@@ -1,4 +1,5 @@
-from injector import Module, provider, singleton
+from injector import Injector, Module, provider, singleton
+from app.core.environment import DB_HOST, DB_USER, DB_PASS, DB_NAME
 from app.application.interface.database.database_handller import IDatabaseHandller
 from app.application.interface.usecase.auth_usecase import IAuthUsecase
 from app.infrastructure.database.database_handller import (
@@ -45,3 +46,6 @@ class DependencyModule(Module):
     @provider
     def database_name(self) -> DatabaseName:
         return self._db_name
+
+
+dependency_injector: Injector = Injector([DependencyModule(DB_HOST, DB_USER, DB_PASS, DB_NAME)])
