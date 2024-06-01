@@ -44,33 +44,17 @@ class AuthMiddleware(BaseHTTPMiddleware):
                     status_code=status.HTTP_403_FORBIDDEN, detail="CSRFトークンの認証に失敗しました。: " + str(e)
                 )
 
-        # JWT認証除外の場合は次の処置へ
+        # JWT認証除外の場合は次の処理へ
         if request.url.path in AWT_AUTH_EXCLUSION_PATH:
             return await call_next(request)
 
-        # CookieからJWTトークンを取得
-        access_token: str = request.cookies.get("access_token")
-        if not access_token:
-            raise HTTPException(status_code=status.HTTP_401_UNAUTHORIZED, detail="JWTトークンが設定されていません。")
-
-        scheme, _, token = access_token.partition(" ")
-        if scheme != "Bearer":
-            raise HTTPException(status_code=status.HTTP_401_UNAUTHORIZED, detail="JWTトークンが設定されていません。")
-
-        # JWTトークンのデコード
-        subject = auth_jwt.decode_jwt(token)
-        if subject is None:
-            raise HTTPException(
-                status_code=status.HTTP_401_UNAUTHORIZED, detail="JWTトークンが不正か、有効期限が切れています。"
-            )
+        # JWTトークンからSubjectを取得
+        subject: str = auth_jwt.get_subject_from_cookie(request=request)
 
         # 次の処理を実行
         response: Response = await call_next(request)
 
         # JWTトークンを更新
-        jwt_token = auth_jwt.encode_jwt(subject)
-        response.set_cookie(
-            key="access_token", value=f"Bearer {jwt_token}", httponly=True, samesite="none", secure=True
-        )
+        auth_jwt.set_token_to_cookie(subject=subject, response=response)
 
         return response

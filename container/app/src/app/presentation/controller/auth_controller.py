@@ -51,13 +51,8 @@ class AuthController:
             # ユースケース実行
             email: str = self._auth_usecase.sign_in(data=data)
 
-            # JWTトークン生成
-            token = auth_jwt.encode_jwt(subject=email)
-
-            # JWTトークンをCookieに設定
-            response.set_cookie(
-                key="access_token", value=f"Bearer {token}", httponly=True, samesite="none", secure=True
-            )
+            # JWTトークン生成してCookieに設定
+            auth_jwt.set_token_to_cookie(subject=email, response=response)
 
             return DefaultModel(message="サインインしました。")
 
@@ -73,5 +68,5 @@ class AuthController:
         Args:
             response: レスポンス
         """
-        response.set_cookie(key="access_token", value="", httponly=True, samesite="none", secure=True)
+        auth_jwt.clear_token_to_cookie(response=response)
         return DefaultModel(message="サインアウトしました。")

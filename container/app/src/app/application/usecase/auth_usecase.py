@@ -11,6 +11,9 @@ from app.core import exceptions
 class AuthUsecase(IAuthUsecase):
     """
     認証ユースケースの実装クラス
+
+    Attributes:
+        database_handller: データベースハンドラー
     """
 
     @inject
@@ -30,7 +33,7 @@ class AuthUsecase(IAuthUsecase):
 
                 # 同じE-mailアドレスのユーザーが存在していないか確認
                 if not user_repository.not_exists(email=data.email):
-                    raise exceptions.AlreadyExistsError
+                    raise exceptions.AlreadyExistsError("入力されたE-mailアドレスが既に存在しています。")
 
                 # ユーザーのエンティティを作成
                 new_user_entity: UserEntity = UserEntity.create(
@@ -59,11 +62,11 @@ class AuthUsecase(IAuthUsecase):
 
                 # ユーザーが存在しない場合は例外を投げる
                 if not user_entity:
-                    raise exceptions.NotFoundError
+                    raise exceptions.NotFoundError("ユーザーが存在しません。")
 
                 # パスワードの正しくない場合は例外を投げる
                 if not user_entity.verify_password(plain_pw=data.password):
-                    raise exceptions.BadRequestError
+                    raise exceptions.BadRequestError("パスワードが一致しません。")
 
                 return user_entity.email
 

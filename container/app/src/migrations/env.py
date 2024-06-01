@@ -19,6 +19,7 @@ from app.core.environment import (
 )
 from app.infrastructure.database.dto import Base
 from app.infrastructure.database.dto.user_dto import UserDto  # NOQA
+from app.infrastructure.database.dto.category_dto import CategoryDto  # NOQA
 
 load_dotenv()
 

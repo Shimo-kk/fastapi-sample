@@ -11,9 +11,9 @@ class UserEntity(BaseEntity):
     ユーザーのエンティティクラス
 
     Attributes:
-        _name: 名称
-        _email: E-mailアドレス
-        _password: パスワード（ハッシュ済み）
+        name: 名称
+        email: E-mailアドレス
+        password: パスワード（ハッシュ済み）
     """
 
     @staticmethod

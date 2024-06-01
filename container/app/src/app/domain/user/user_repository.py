@@ -1,5 +1,4 @@
 from abc import ABC, abstractmethod
-
 from app.domain.user.user_entity import UserEntity
 
 

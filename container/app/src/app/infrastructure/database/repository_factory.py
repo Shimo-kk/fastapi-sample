@@ -2,6 +2,7 @@ from sqlalchemy.orm.session import Session
 from typing import Type, TypeVar
 from app.application.interface.database.repository_factory import IRepositoryFactory
 from app.infrastructure.database.repository.user_repository import UserRepository  # NOQA
+from app.infrastructure.database.repository.category_repository import CategoryReoisitory  # NOQA
 
 T = TypeVar("T")
 

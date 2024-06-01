@@ -6,7 +6,7 @@ from app.infrastructure.database.dto.user_dto import UserDto
 
 class UserRepository(IUserRepository):
     """
-    ユーザーのリポジトリクラス
+    ユーザーリポジトリの実装クラス
 
     Attributes:
         db_session: DBセッション
