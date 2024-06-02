@@ -4,6 +4,7 @@ from app.application.interface.database.repository_factory import IRepositoryFac
 from app.infrastructure.database.repository.user_repository import UserRepository  # NOQA
 from app.infrastructure.database.repository.category_repository import CategoryReoisitory  # NOQA
 from app.infrastructure.database.repository.priority_repository import PriorityRepository  # NOQA
+from app.infrastructure.database.repository.task_repository import TaskRepository  # NOQA
 
 T = TypeVar("T")
 

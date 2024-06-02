@@ -21,6 +21,7 @@ from app.infrastructure.database.dto import Base
 from app.infrastructure.database.dto.user_dto import UserDto  # NOQA
 from app.infrastructure.database.dto.category_dto import CategoryDto  # NOQA
 from app.infrastructure.database.dto.priority_dto import PriorityDto  # NOQA
+from app.infrastructure.database.dto.task_dto import TaskDto  # NOQA
 
 load_dotenv()
 

@@ -1,4 +1,4 @@
-from sqlalchemy import Column, Integer, VARCHAR
+from sqlalchemy import Column, INTEGER, VARCHAR, ForeignKey
 from app.infrastructure.database.dto import BaseDto
 from app.domain.category.category_entity import CategoryEntity
 
@@ -14,7 +14,7 @@ class CategoryDto(BaseDto):
 
     __tablename__ = "categories"
 
-    user_id = Column(Integer, nullable=False)
+    user_id = Column(INTEGER, ForeignKey("users.id", ondelete="CASCADE"), nullable=False, comment="ユーザーID")
     name = Column(VARCHAR(50), nullable=False, comment="名称")
 
     @staticmethod

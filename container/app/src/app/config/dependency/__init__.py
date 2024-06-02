@@ -4,6 +4,7 @@ from app.application.interface.database.database_handller import IDatabaseHandll
 from app.application.interface.usecase.auth_usecase import IAuthUsecase
 from app.application.interface.usecase.priority_usecase import IPriorityUsecase
 from app.application.interface.usecase.category_usecase import ICategoryUsecase
+from app.application.interface.usecase.task_usecase import ITaskUsecase
 from app.infrastructure.database.database_handller import (
     DatabaseHost,
     DatabaseUser,
@@ -14,6 +15,7 @@ from app.infrastructure.database.database_handller import (
 from app.application.usecase.auth_usecase import AuthUsecase
 from app.application.usecase.priority_usecase import PriorityUsecase
 from app.application.usecase.category_usecase import CategoryUsecase
+from app.application.usecase.task_usecase import TaskUsecase
 
 
 class DependencyModule(Module):
@@ -32,6 +34,7 @@ class DependencyModule(Module):
         binder.bind(IAuthUsecase, to=AuthUsecase, scope=singleton)
         binder.bind(IPriorityUsecase, to=PriorityUsecase, scope=singleton)
         binder.bind(ICategoryUsecase, to=CategoryUsecase, scope=singleton)
+        binder.bind(ITaskUsecase, to=TaskUsecase, scope=singleton)
 
     @singleton
     @provider

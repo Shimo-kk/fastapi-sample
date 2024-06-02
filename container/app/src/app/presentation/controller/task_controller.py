@@ -1,29 +1,29 @@
 from fastapi import Request, HTTPException, status
 from injector import inject, singleton
-from app.application.interface.usecase.category_usecase import ICategoryUsecase
+from app.application.interface.usecase.task_usecase import ITaskUsecase
 from app.application.model import DefaultModel
-from app.application.model.category_model import CategoryCreateModel, CategoryReadModel, CategoryUpdateModel
+from app.application.model.task_model import TaskCreateModel, TaskReadModel, TaskUpdateModel
 from app.core import exceptions
 from app.presentation.auth import auth_jwt
 
 
 @singleton
-class CategoryController:
+class TaskController:
     """
-    カテゴリコントローラークラス
+    タスクコントローラークラス
     """
 
     @inject
-    def __init__(self, category_usecase: ICategoryUsecase):
-        self._category_usecase = category_usecase
+    def __init__(self, task_usecase: ITaskUsecase):
+        self._task_usecase = task_usecase
 
-    def create_category(self, request: Request, data: CategoryCreateModel) -> DefaultModel:
+    def create_category(self, request: Request, data: TaskCreateModel) -> DefaultModel:
         """
-        カテゴリを作成
+        タスクを作成
 
         Args:
             request: リクエスト
-            data: カテゴリ作成モデル
+            data: タスク作成モデル
 
         Returns:
             DefaultModel: デフォルトのレスポンス
@@ -33,49 +33,50 @@ class CategoryController:
             subject: str = auth_jwt.get_subject_from_cookie(request=request)
 
             # ユースケース実行
-            self._category_usecase.create_category(user_email=subject, data=data)
+            self._task_usecase.create_task(user_email=subject, data=data)
 
-            return DefaultModel(message="カテゴリを作成しました。")
+            return DefaultModel(message="タスクを作成しました。")
+
         except exceptions.ValidationError as e:
             raise HTTPException(status_code=status.HTTP_400_BAD_REQUEST, detail=str(e))
         except exceptions.NotFoundError as e:
             raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail=str(e))
 
-    def get_all(self, request: Request) -> list[CategoryReadModel]:
+    def get_all_task(self, request: Request) -> list[TaskReadModel]:
         """
-        全てのカテゴリを取得
+        全てのタスクを取得
 
         Args:
             request: リクエスト
 
         Returns:
-            list[CategoryReadModel]: カテゴリ参照モデルリスト
+            list[TaskReadModel]: タスク参照モデルリスト
         """
         try:
             # JWTトークンからSubjectを取得
             subject: str = auth_jwt.get_subject_from_cookie(request=request)
 
             # ユースケース実行
-            return self._category_usecase.get_all(user_email=subject)
+            return self._task_usecase.get_all_task(user_email=subject)
 
         except exceptions.NotFoundError as e:
             raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail=str(e))
 
-    def update_category(self, data: CategoryUpdateModel) -> DefaultModel:
+    def update_task(self, data: TaskUpdateModel) -> DefaultModel:
         """
-        カテゴリを更新
+        タスクを更新
 
         Args:
-            data: カテゴリ更新モデル
+            data: タスク更新モデル
 
         Returns:
             DefaultModel: デフォルトのレスポンス
         """
         try:
             # ユースケース実行
-            self._category_usecase.update_category(data=data)
+            self._task_usecase.update_task(data=data)
 
-            return DefaultModel(message="カテゴリを更新しました。")
+            return DefaultModel(message="タスクを更新しました。")
 
         except exceptions.ValidationError as e:
             raise HTTPException(status_code=status.HTTP_400_BAD_REQUEST, detail=str(e))
@@ -84,7 +85,7 @@ class CategoryController:
 
     def delete_category(self, id: int) -> DefaultModel:
         """
-        カテゴリを削除
+        タスクを削除
 
         Args:
             id: 主キー
@@ -92,9 +93,26 @@ class CategoryController:
             DefaultModel: デフォルトのレスポンス
         """
         try:
-            self._category_usecase.delete_category(id=id)
+            self._task_usecase.delete_task(id=id)
 
-            return DefaultModel(message="カテゴリを削除しました。")
+            return DefaultModel(message="タスクを削除しました。")
+
+        except exceptions.NotFoundError as e:
+            raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail=str(e))
+
+    def done_task(self, id: int) -> DefaultModel:
+        """
+        タスクを完了
+
+        Args:
+            id: 主キー
+        Returns:
+            DefaultModel: デフォルトのレスポンス
+        """
+        try:
+            self._task_usecase.done_task(id=id)
+
+            return DefaultModel(message="タスクを完了しました。")
 
         except exceptions.NotFoundError as e:
             raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail=str(e))
