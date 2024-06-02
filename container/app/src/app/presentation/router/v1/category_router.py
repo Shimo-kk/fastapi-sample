@@ -15,7 +15,7 @@ def create_category(request: Request, data: CategoryCreateModel):
 
 
 @router.get("", response_model=list[CategoryReadModel])
-def get_all(request: Request):
+def get_all_category(request: Request):
     return category_controller.get_all(request=request)
 
 

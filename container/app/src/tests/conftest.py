@@ -12,8 +12,7 @@ from app.presentation.middleware.request_middleware import RequestMiddleware
 from app.presentation.middleware.auth_middleware import AuthMiddleware
 from app.presentation.router import api_router
 from app.infrastructure.database.dto import Base
-
-from seeds.seed.seed_data_test import seed
+from seeds.seed import seed_data, seed_data_test
 
 # アプリケーション生成
 app = FastAPI()
@@ -35,7 +34,8 @@ def injector():
     alembic_cfg: Config = Config("alembic.ini")
     command.upgrade(alembic_cfg, "head")
 
-    seed(TEST_DB_URL)
+    seed_data.seed(url=TEST_DB_URL)
+    seed_data_test.seed(url=TEST_DB_URL)
 
     injector = Injector([DependencyModule(DB_HOST_TEST, DB_USER_TEST, DB_PASS_TEST, DB_NAME_TEST)])
     yield injector
@@ -50,7 +50,8 @@ def client():
     alembic_cfg: Config = Config("alembic.ini")
     command.upgrade(alembic_cfg, "head")
 
-    seed(TEST_DB_URL)
+    seed_data.seed(url=TEST_DB_URL)
+    seed_data_test.seed(url=TEST_DB_URL)
 
     client = TestClient(app)
     yield client

@@ -45,7 +45,7 @@ class CategoryReoisitory(ICategoryRepository):
             self._db_session.query(CategoryDto).filter_by(user_id=user_id).order_by(CategoryDto.id).all()
         )
 
-        result: list[CategoryDto] = []
+        result: list[CategoryEntity] = []
         for category_dto in category_dto_list:
             result.append(category_dto.to_entity())
 

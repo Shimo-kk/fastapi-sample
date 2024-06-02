@@ -46,10 +46,9 @@ class CategoryController:
 
         Args:
             request: リクエスト
-            data: カテゴリ作成モデル
 
         Returns:
-            DefaultModel: デフォルトのレスポンス
+            list[CategoryReadModel]: カテゴリ参照モデルリスト
         """
         try:
             # JWTトークンからSubjectを取得
