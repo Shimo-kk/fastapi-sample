@@ -1,5 +1,5 @@
 from fastapi import APIRouter, Request
-from app.config.dependency import dependency_injector
+from app.core.dependency import dependency_injector
 from app.application.model import DefaultModel
 from app.application.model.category_model import CategoryCreateModel, CategoryReadModel, CategoryUpdateModel
 from app.presentation.controller.category_controller import CategoryController

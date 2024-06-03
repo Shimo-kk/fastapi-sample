@@ -1,5 +1,5 @@
 from fastapi import APIRouter, Request
-from app.config.dependency import dependency_injector
+from app.core.dependency import dependency_injector
 from app.application.model.priority_model import PriorityReadModel
 from app.presentation.controller.priority_controller import PriorityController
 

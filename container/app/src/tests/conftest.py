@@ -6,7 +6,7 @@ from fastapi import FastAPI
 from fastapi.testclient import TestClient
 from injector import Injector
 from app.core.environment import DB_HOST_TEST, DB_USER_TEST, DB_PASS_TEST, DB_NAME_TEST
-from app.config.dependency import DependencyModule
+from app.core.dependency import DependencyModule
 from app.presentation.middleware.cors_middleware import CORSMiddleware
 from app.presentation.middleware.request_middleware import RequestMiddleware
 from app.presentation.middleware.auth_middleware import AuthMiddleware

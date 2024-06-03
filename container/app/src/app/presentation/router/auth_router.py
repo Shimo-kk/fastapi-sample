@@ -1,5 +1,5 @@
 from fastapi import APIRouter, Request, Response
-from app.config.dependency import dependency_injector
+from app.core.dependency import dependency_injector
 from app.application.model import DefaultModel
 from app.application.model.auth_model import SignUpModel, SignInModel
 from app.presentation.controller.auth_controller import AuthController

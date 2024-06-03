@@ -1,5 +1,5 @@
 from fastapi import APIRouter, Request
-from app.config.dependency import dependency_injector
+from app.core.dependency import dependency_injector
 from app.application.model import DefaultModel
 from app.application.model.task_model import TaskCreateModel, TaskReadModel, TaskUpdateModel
 from app.presentation.controller.task_controller import TaskController
