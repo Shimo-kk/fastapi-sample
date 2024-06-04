@@ -51,7 +51,7 @@ class CategoryUsecase(ICategoryUsecase):
         except Exception:
             raise
 
-    def get_all(self, user_email: str) -> list[CategoryReadModel]:
+    def get_all_category(self, user_email: str) -> list[CategoryReadModel]:
         """
         カテゴリを全件取得
 

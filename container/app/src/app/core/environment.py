@@ -23,5 +23,8 @@ CSRF_KEY: str = os.environ["CSRF_KEY"]
 JWT_KEY: str = os.environ["JWT_KEY"]
 JWT_ALGORITHM = "HS256"
 
+# ログ関連
+LOG_DIR: str = os.environ["LOG_DIR"]
+
 # デバッグモード
 DEBUG: bool = os.environ["DEBUG"]

@@ -12,7 +12,7 @@ class ICategoryUsecase(ABC):
         raise NotImplementedError
 
     @abstractmethod
-    def get_all(self, user_email: str) -> list[CategoryReadModel]:
+    def get_all_category(self, user_email: str) -> list[CategoryReadModel]:
         raise NotImplementedError
 
     @abstractmethod

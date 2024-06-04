@@ -41,7 +41,7 @@ class CategoryController:
         except exceptions.NotFoundError as e:
             raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail=str(e))
 
-    def get_all(self, request: Request) -> list[CategoryReadModel]:
+    def get_all_category(self, request: Request) -> list[CategoryReadModel]:
         """
         全てのカテゴリを取得
 
